@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manya Jain — Creative Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:     #0a0812;
+  --bg2:    #0f0c18;
+  --card:   #13101e;
+  --gold:   #f0c060;
+  --gold2:  #c8902a;
+  --rose:   #ff6b9d;
+  --cyan:   #00fff7;
+  --mag:    #ff00c8;
+  --text:   rgba(255,255,255,0.88);
+  --dim:    rgba(255,255,255,0.35);
+  --border: rgba(240,192,96,0.12);
+  --glow:   0 0 20px rgba(240,192,96,0.4), 0 0 60px rgba(240,192,96,0.15);
+}
+*{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:var(--gold);}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;}
+
+/* ── GRID BG ── */
+.grid-bg{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(240,192,96,0.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(240,192,96,0.025) 1px,transparent 1px);
+  background-size:55px 55px;
+  animation:gridDrift 30s linear infinite;
+}
+@keyframes gridDrift{0%{transform:translateY(0)}100%{transform:translateY(55px)}}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 56px;
+  background:rgba(10,8,18,0.92);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{
+  font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:800;
+  letter-spacing:0.12em;color:var(--gold);text-decoration:none;text-transform:uppercase;
+}
+.nav-logo span{color:var(--rose);}
+.nav-links{display:flex;gap:30px;list-style:none;}
+.nav-links a{
+  font-family:'Share Tech Mono',monospace;font-size:0.65rem;letter-spacing:0.16em;
+  color:var(--dim);text-decoration:none;text-transform:uppercase;transition:color 0.2s;
+}
+.nav-links a:hover{color:var(--gold);}
+.nav-back{
+  font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;
+  color:var(--dim);text-decoration:none;transition:color 0.2s;
+}
+.nav-back:hover{color:var(--gold);}
+
+/* ══════════════════════════════
+   HERO — reference-matched layout
+   big name behind avatar
+══════════════════════════════ */
+#hero{
+  position:relative;min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+  overflow:hidden;z-index:1;
+  padding-bottom:0;
+}
+
+/* GIANT name typography behind everything */
+.hero-name-bg{
+  position:absolute;
+  top:42%;left:50%;
+  transform:translate(-50%,-50%);
+  display:flex;flex-direction:row;
+  align-items:center;
+  gap:0.12em;
+  pointer-events:none;
+  user-select:none;
+  white-space:nowrap;
+  z-index:1;
+  width:100%;
+  justify-content:center;
+}
+.hn-first{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(6rem,17vw,17rem);
+  letter-spacing:-0.02em;
+  line-height:1;
+  color:transparent;
+  -webkit-text-stroke:2px rgba(240,192,96,0.28);
+  text-stroke:2px rgba(240,192,96,0.28);
+}
+.hn-last{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(6rem,17vw,17rem);
+  letter-spacing:-0.02em;
+  line-height:1;
+  color:transparent;
+  -webkit-text-stroke:2px rgba(240,192,96,0.28);
+}
+
+/* year badge like reference */
+.year-badge{
+  position:absolute;top:90px;right:52px;z-index:10;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:2.8rem;color:var(--gold);
+  text-shadow:var(--glow);
+  opacity:0;animation:popIn 0.5s 0.8s ease forwards;
+}
+.year-badge span{font-size:1.1rem;font-family:'Share Tech Mono',monospace;color:var(--rose);vertical-align:super;}
+
+@keyframes popIn{from{opacity:0;transform:scale(0.8)}to{opacity:1;transform:scale(1)}}
+
+/* avatar centered */
+.hero-avatar{
+  position:relative;z-index:3;
+  width:clamp(260px,36vw,460px);
+  margin-bottom:0;
+  opacity:0;animation:avatarRise 0.9s 0.3s ease forwards;
+}
+.hero-avatar img{
+  width:100%;display:block;
+  mix-blend-mode: lighten;
+  filter:drop-shadow(0 0 40px rgba(240,192,96,0.15));
+}
+@keyframes avatarRise{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+/* side name badge (like "SHOURYA KHANNA" in reference) */
+.hero-name-badge{
+  position:absolute;left:54px;bottom:140px;z-index:10;
+  opacity:0;animation:slideRight 0.6s 0.9s ease forwards;
+}
+.hnb-label{
+  font-family:'Share Tech Mono',monospace;font-size:0.6rem;
+  letter-spacing:0.25em;color:var(--gold);display:block;margin-bottom:4px;
+}
+.hnb-name{
+  font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;
+  letter-spacing:0.06em;color:var(--text);display:block;
+}
+.hnb-tag{
+  font-family:'Share Tech Mono',monospace;font-size:0.55rem;
+  letter-spacing:0.2em;color:var(--dim);display:block;margin-top:4px;
+}
+@keyframes slideRight{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+
+/* pills row bottom — domain tags floating over hero bottom */
+.hero-pills-row{
+  position:absolute;right:52px;bottom:140px;z-index:10;
+  display:flex;flex-direction:column;gap:8px;align-items:flex-end;
+  opacity:0;animation:slideLeft 0.6s 1s ease forwards;
+}
+.hp{
+  font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;
+  padding:6px 16px;
+  border:1px solid rgba(240,192,96,0.3);color:rgba(240,192,96,0.7);
+  background:rgba(10,8,18,0.7);backdrop-filter:blur(4px);
+  text-transform:uppercase;
+}
+@keyframes slideLeft{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+
+/* scan line at hero bottom */
+.hero-scan{
+  position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),var(--rose),transparent);
+  z-index:5;
+}
+
+/* ── SCANLINES OVERLAY ── */
+.scanlines{
+  position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.06) 2px,rgba(0,0,0,0.06) 4px);
+}
+
+/* ══════════════════════════════
+   HI SECTION — "Hi, I'm" block
+   like reference below avatar
+══════════════════════════════ */
+#hi{
+  background:var(--bg2);position:relative;z-index:2;
+  border-top:1px solid var(--border);
+}
+.hi-wrap{
+  max-width:1300px;margin:0 auto;padding:80px 56px;
+  display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:56px;align-items:start;
+}
+.hi-left{}
+.hi-greeting{
+  font-family:'Share Tech Mono',monospace;font-size:0.7rem;
+  letter-spacing:0.25em;color:var(--gold);margin-bottom:10px;
+}
+.hi-name{
+  font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;
+  color:var(--text);margin-bottom:18px;
+  letter-spacing:-0.01em;
+}
+.hi-name span{color:var(--gold);text-shadow:var(--glow);}
+.hi-body{
+  font-size:0.92rem;color:var(--dim);line-height:1.85;
+}
+.hi-body strong{color:rgba(255,255,255,0.75);font-weight:500;}
+
+/* experience columns exactly like reference */
+.exp-col-label{
+  font-family:'Share Tech Mono',monospace;font-size:0.6rem;
+  letter-spacing:0.22em;color:var(--gold);text-transform:uppercase;
+  margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border);
+  display:block;
+}
+.exp-mini{margin-bottom:22px;}
+.em-role{
+  font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:700;
+  color:var(--text);margin-bottom:3px;line-height:1.3;
+}
+.em-org{
+  font-family:'Share Tech Mono',monospace;font-size:0.6rem;
+  letter-spacing:0.06em;color:var(--gold);margin-bottom:5px;
+}
+.em-date{
+  font-family:'Share Tech Mono',monospace;font-size:0.55rem;
+  letter-spacing:0.1em;color:var(--dim);
+}
+.em-award{
+  display:inline-block;margin-top:6px;
+  font-family:'Share Tech Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;
+  padding:3px 9px;background:rgba(240,192,96,0.1);
+  border:1px solid rgba(240,192,96,0.3);color:var(--gold);
+}
+
+/* contact col */
+.contact-mini{}
+.cm-row{
+  display:flex;align-items:center;gap:10px;margin-bottom:12px;
+  font-size:0.82rem;color:rgba(255,255,255,0.55);
+}
+.cm-icon{
+  width:28px;height:28px;flex-shrink:0;
+  background:rgba(240,192,96,0.08);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Share Tech Mono',monospace;font-size:0.5rem;color:var(--gold);
+}
+.cm-row a{color:rgba(255,255,255,0.55);text-decoration:none;font-size:0.82rem;}
+.cm-row a:hover{color:var(--gold);}
+
+.softwares-label{
+  font-family:'Share Tech Mono',monospace;font-size:0.6rem;
+  letter-spacing:0.22em;color:var(--gold);text-transform:uppercase;
+  margin:22px 0 12px;display:block;
+}
+.sw-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.sw-tag{
+  font-family:'Share Tech Mono',monospace;font-size:0.55rem;letter-spacing:0.05em;
+  padding:4px 10px;
+  border:1px solid var(--border);color:var(--dim);
+  background:rgba(240,192,96,0.04);
+  transition:all 0.25s;
+}
+.sw-tag:hover{border-color:var(--gold);color:var(--gold);}
+
+/* ══════════════════════════════
+   CONTENT NUMBERS  — "01 02 03" row
+   exactly like reference
+══════════════════════════════ */
+#content-nav{
+  background:var(--bg);position:relative;z-index:2;
+  border-top:1px solid var(--border);overflow:hidden;
+}
+.cn-wrap{
+  max-width:1300px;margin:0 auto;padding:48px 56px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:relative;
+}
+.cn-word{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(4rem,10vw,9rem);
+  color:transparent;
+  -webkit-text-stroke:1px rgba(240,192,96,0.08);
+  letter-spacing:0.04em;
+  pointer-events:none;user-select:none;
+  white-space:nowrap;
+}
+.cn-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(2rem,5vw,4.5rem);
+  color:transparent;
+  -webkit-text-stroke:1px rgba(240,192,96,0.25);
+  transition:color 0.3s,-webkit-text-stroke 0.3s;
+  cursor:default;
+  position:relative;z-index:1;
+}
+.cn-num:hover{
+  color:var(--gold);
+  -webkit-text-stroke:0px;
+  text-shadow:var(--glow);
+}
+
+/* ══════════════════════════════
+   PROJECTS / WORK tiles
+   numbered like reference bottom
+══════════════════════════════ */
+#projects{
+  background:var(--bg2);z-index:2;position:relative;
+  border-top:1px solid var(--border);
+}
+.proj-wrap{max-width:1300px;margin:0 auto;padding:80px 56px;}
+.proj-top{
+  display:flex;align-items:baseline;justify-content:space-between;
+  margin-bottom:48px;
+}
+.proj-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(2rem,5vw,4rem);
+  letter-spacing:0.04em;color:var(--text);
+}
+.proj-title span{color:var(--gold);}
+.proj-sub{
+  font-family:'Share Tech Mono',monospace;font-size:0.6rem;
+  letter-spacing:0.2em;color:var(--dim);
+}
+.proj-grid{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:2px;
+}
+.proj-tile{
+  background:var(--card);
+  padding:24px 20px 20px;
+  position:relative;overflow:hidden;
+  transition:transform 0.3s;cursor:default;
+  border:1px solid rgba(255,255,255,0.03);
+}
+.proj-tile:hover{transform:translateY(-4px);z-index:1;}
+.proj-tile:hover .pt-line{transform:scaleX(1);}
+.pt-line{
+  position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--gold),var(--rose));
+  transform:scaleX(0);transform-origin:left;transition:transform 0.4s;
+}
+.pt-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:3rem;line-height:1;
+  color:rgba(255,255,255,0.06);margin-bottom:12px;
+}
+.pt-color{
+  height:80px;margin-bottom:16px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:2rem;
+}
+.pt-c1{background:linear-gradient(135deg,#1a2535,#0d1a28);}
+.pt-c2{background:linear-gradient(135deg,#1f1a10,#2a2010);}
+.pt-c3{background:linear-gradient(135deg,#101a18,#082018);}
+.pt-c4{background:linear-gradient(135deg,#1a1020,#2a1030);}
+.pt-c5{background:linear-gradient(135deg,#1a1015,#280810);}
+.pt-title{
+  font-family:'Syne',sans-serif;font-size:0.82rem;font-weight:700;
+  color:var(--text);margin-bottom:6px;line-height:1.35;
+}
+.pt-sub{
+  font-family:'Share Tech Mono',monospace;font-size:0.55rem;letter-spacing:0.08em;
+  color:var(--dim);line-height:1.6;
+}
+
+/* ── VISIT SITE bar ── */
+.visit-bar{
+  background:var(--bg);border-top:1px solid var(--border);
+  position:relative;z-index:2;
+  padding:28px 56px;max-width:none;
+  display:flex;align-items:center;gap:18px;
+}
+.vb-arrow{
+  width:42px;height:42px;background:var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;color:var(--bg);
+  transform:rotate(-45deg);
+  transition:transform 0.3s;
+  cursor:pointer;
+}
+.vb-arrow:hover{transform:rotate(-45deg) scale(1.1);}
+.vb-label{
+  font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;
+  color:var(--text);letter-spacing:0.04em;
+}
+.vb-back{
+  margin-left:auto;
+  font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.18em;
+  color:var(--dim);text-decoration:none;transition:color 0.2s;
+}
+.vb-back:hover{color:var(--gold);}
+
+/* ══════════════════════════════
+   SKILLS full section
+══════════════════════════════ */
+#skills{
+  background:var(--bg);z-index:2;position:relative;
+  border-top:1px solid var(--border);
+}
+.sk-wrap{max-width:1300px;margin:0 auto;padding:80px 56px;}
+.sk-header{
+  display:flex;align-items:baseline;justify-content:space-between;margin-bottom:48px;
+}
+.sk-title{
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,5vw,4rem);
+  letter-spacing:0.04em;color:var(--text);
+}
+.sk-title span{color:var(--rose);}
+.sk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.sk-card{
+  background:var(--card);border:1px solid var(--border);
+  padding:28px;transition:border-color 0.3s,transform 0.3s;
+  position:relative;overflow:hidden;
+}
+.sk-card:hover{border-color:var(--gold);transform:translateY(-3px);}
+.sk-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+  opacity:0;transition:opacity 0.3s;
+}
+.sk-card:hover::before{opacity:1;}
+.skc-icon{font-size:1.4rem;display:block;margin-bottom:12px;}
+.skc-title{
+  font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;
+  color:var(--gold);margin-bottom:4px;
+}
+.skc-sub{
+  font-family:'Share Tech Mono',monospace;font-size:0.55rem;
+  letter-spacing:0.1em;color:var(--dim);margin-bottom:16px;
+}
+.skc-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.skc-tag{
+  font-family:'Share Tech Mono',monospace;font-size:0.55rem;letter-spacing:0.05em;
+  padding:4px 9px;border:1px solid rgba(240,192,96,0.18);color:rgba(240,192,96,0.5);
+  background:rgba(240,192,96,0.03);transition:all 0.2s;
+}
+.sk-card:hover .skc-tag{border-color:rgba(240,192,96,0.4);color:rgba(240,192,96,0.75);}
+.cert-list{margin-top:16px;padding-top:14px;border-top:1px solid rgba(240,192,96,0.1);display:flex;flex-direction:column;gap:7px;}
+.cl-item{
+  display:flex;gap:8px;align-items:flex-start;
+  font-family:'Share Tech Mono',monospace;font-size:0.58rem;
+  letter-spacing:0.03em;color:rgba(255,255,255,0.38);line-height:1.5;
+}
+.cl-item::before{content:'✓';color:var(--gold);flex-shrink:0;}
+
+/* ══════════════════════════════
+   FOOTER
+══════════════════════════════ */
+footer{
+  background:var(--bg2);border-top:1px solid var(--border);
+  padding:24px 56px;display:flex;
+  align-items:center;justify-content:space-between;
+  position:relative;z-index:2;
+}
+.f-brand{
+  font-family:'Syne',sans-serif;font-size:0.72rem;font-weight:800;
+  letter-spacing:0.1em;color:rgba(255,255,255,0.25);text-transform:uppercase;
+}
+.f-brand em{color:var(--gold);font-style:normal;}
+.f-links{display:flex;gap:22px;}
+.f-links a{
+  font-family:'Share Tech Mono',monospace;font-size:0.58rem;
+  letter-spacing:0.14em;color:rgba(255,255,255,0.22);
+  text-decoration:none;transition:color 0.2s;text-transform:uppercase;
+}
+.f-links a:hover{color:var(--gold);}
+
+/* PARTICLES */
+.particle{
+  position:fixed;border-radius:50%;pointer-events:none;z-index:0;
+  animation:floatUp linear infinite;opacity:0;
+}
+@keyframes floatUp{
+  0%{transform:translateY(100vh) translateX(0);opacity:0}
+  10%{opacity:0.3}90%{opacity:0.3}
+  100%{transform:translateY(-20px) translateX(var(--dx));opacity:0}
+}
+
+@media(max-width:900px){
+  nav{padding:12px 16px;}
+  .nav-links{display:none;}
+  .nav-back{font-size:0.55rem;}
+  .nav-logo{font-size:0.78rem;letter-spacing:0.08em;}
+  #hero{min-height:100svh;overflow:hidden;}
+  .hero-name-bg{top:38%;width:100%;}
+  .hn-first,.hn-last{font-size:clamp(3rem,13vw,6rem);}
+  .hero-avatar{width:clamp(200px,62vw,320px);}
+  .year-badge{right:14px;top:72px;font-size:2rem;}
+  .hero-name-badge{left:14px;bottom:70px;}
+  .hnb-label{font-size:0.5rem;letter-spacing:0.15em;}
+  .hnb-name{font-size:1rem;}
+  .hnb-tag{display:none;}
+  .hero-pills-row{display:none;}
+  .hi-wrap{grid-template-columns:1fr;padding:50px 16px 40px;gap:30px;}
+  .hi-greeting{font-size:0.6rem;}
+  .hi-name{font-size:1.7rem;margin-bottom:12px;}
+  .hi-body{font-size:0.85rem;line-height:1.7;}
+  .exp-col-label{font-size:0.55rem;letter-spacing:0.15em;margin-bottom:12px;}
+  .em-role{font-size:0.82rem;}
+  .em-org,.em-date{font-size:0.58rem;}
+  .cm-row,.cm-row a{font-size:0.78rem;}
+  .cm-icon{width:26px;height:26px;}
+  .softwares-label{font-size:0.55rem;letter-spacing:0.15em;margin:14px 0 8px;}
+  #content-nav{overflow:hidden;}
+  .cn-wrap{padding:20px 16px;}
+  .cn-num{font-size:clamp(1.4rem,6vw,2.5rem);}
+  .cn-word{font-size:clamp(2rem,10vw,4rem);}
+  .proj-wrap{padding:50px 16px;}
+  .proj-grid{grid-template-columns:1fr 1fr;gap:10px;}
+  .proj-top{flex-direction:column;gap:6px;margin-bottom:20px;}
+  .proj-title{font-size:clamp(1.4rem,6vw,2.2rem);}
+  .pt-num{font-size:2rem;}
+  .pt-color{height:60px;font-size:1.4rem;}
+  .pt-title{font-size:0.75rem;}
+  .pt-sub{font-size:0.5rem;}
+  .proj-tile{padding:16px 14px 14px;}
+  .visit-bar{padding:16px;flex-wrap:wrap;gap:10px;}
+  .vb-label{font-size:0.95rem;}
+  .vb-arrow{width:36px;height:36px;}
+  .vb-back{font-size:0.55rem;}
+  .sk-wrap{padding:50px 16px;}
+  .sk-grid{grid-template-columns:1fr;}
+  .sk-header{flex-direction:column;gap:4px;margin-bottom:24px;}
+  .sk-title{font-size:clamp(1.4rem,6vw,2.2rem);}
+  .skc-tag{font-size:0.52rem;padding:3px 7px;}
+  footer{padding:16px;flex-direction:column;gap:8px;text-align:center;}
+  .f-brand{font-size:0.6rem;}
+  .f-links{justify-content:center;gap:14px;}
+  .f-links a{font-size:0.55rem;}
+}
+@media(max-width:480px){
+  .hn-first,.hn-last{font-size:clamp(2.4rem,14vw,4.5rem);}
+  .hero-avatar{width:clamp(180px,68vw,260px);}
+  .hero-name-badge{bottom:50px;}
+  .year-badge{top:68px;right:12px;font-size:1.6rem;}
+  .proj-grid{grid-template-columns:1fr;}
+  .hi-wrap{padding:44px 14px 36px;}
+  .hi-name{font-size:1.5rem;}
+  .cn-num{font-size:clamp(1.2rem,7vw,2rem);}
+  .sk-wrap,.proj-wrap{padding:44px 14px;}
+}
+</style>
+<style>body{-webkit-backface-visibility:hidden;backface-visibility:hidden;}</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="scanlines"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html">MANYA<span>.</span>FOLIO</a>
+  <ul class="nav-links">
+    <li><a href="#hi">About</a></li>
+    <li><a href="#projects">Work</a></li>
+    <li><a href="#skills">Skills</a></li>
+  </ul>
+  <a class="nav-back" href="index.html">← Profiles</a>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+
+  <!-- giant name behind avatar -->
+  <div class="hero-name-bg">
+    <span class="hn-first">MANYA</span>
+    <span class="hn-last">JAIN</span>
+  </div>
+
+  <!-- year badge top right -->
+  <div class="year-badge"><span>'</span>26</div>
+
+  <!-- avatar -->
+  <div class="hero-avatar">
+    <img src="65bd62d4-b020-4968-aade-6e0b676bce4a.png" alt="Manya Jain"/>
+  </div>
+
+  <!-- left side name badge -->
+  <div class="hero-name-badge">
+    <span class="hnb-label">// portfolio</span>
+    <span class="hnb-name">Manya Jain</span>
+    <span class="hnb-tag">Events · Content · PM</span>
+  </div>
+
+  <!-- right side domain pills -->
+  <div class="hero-pills-row">
+    <span class="hp">✍ Content Writing</span>
+    <span class="hp">🎪 Event Management</span>
+    <span class="hp">📋 Project Management</span>
+  </div>
+
+  <div class="hero-scan"></div>
+</section>
+
+<!-- ══ HI SECTION ══ -->
+<section id="hi">
+  <div class="hi-wrap">
+
+    <!-- left: hi intro -->
+    <div class="hi-left">
+      <div class="hi-greeting">// Hi, I'm</div>
+      <div class="hi-name"><span>Manya</span></div>
+      <p class="hi-body">
+        I'm a <strong>final-year B.Tech CSE student at LPU</strong> with a creative soul and a planner's mindset. I write stories, manage events, and deliver projects — all with the same energy and precision. It's not just about showing up; it's about making every moment <strong>worth remembering</strong>.
+      </p>
+    </div>
+
+    <!-- middle: experience col 1 -->
+    <div>
+      <span class="exp-col-label">Experience</span>
+      <div class="exp-mini">
+        <div class="em-role">Writer, Director & Lead Actor</div>
+        <div class="em-org">Nukkad Natak — Spectra Fest</div>
+        <div class="em-date">November 2023</div>
+        <span class="em-award">🥉 3rd / 20+ Teams</span>
+      </div>
+      <div class="exp-mini">
+        <div class="em-role">Head Event Manager</div>
+        <div class="em-org">Organizational Event — LPU</div>
+        <div class="em-date">August 2024</div>
+      </div>
+      <div class="exp-mini">
+        <div class="em-role">Stage & Performance Coordinator</div>
+        <div class="em-org">Diwali Event — LPU</div>
+        <div class="em-date">October 2022</div>
+      </div>
+    </div>
+
+    <!-- right: contact + softwares -->
+    <div>
+      <span class="exp-col-label">Contact</span>
+      <div class="contact-mini">
+        <div class="cm-row">
+          <div class="cm-icon">@</div>
+          <a href="/cdn-cgi/l/email-protection#cfa5aea6a1a2aea1b6aefefafefe8fa8a2aea6a3e1aca0a2"><span class="__cf_email__" data-cfemail="90faf1f9fefdf1fee9f1a1a5a1a1d0f7fdf1f9fcbef3fffd">[email&#160;protected]</span></a>
+        </div>
+        <div class="cm-row">
+          <div class="cm-icon">IN</div>
+          <a href="https://linkedin.com/in/manya-jain-124184252" target="_blank">manya-jain-124184252</a>
+        </div>
+        <div class="cm-row">
+          <div class="cm-icon">TEL</div>
+          <a href="tel:+918077213971">+91 80772 13971</a>
+        </div>
+        <div class="cm-row">
+          <div class="cm-icon">📍</div>
+          <span>Ghaziabad, UP, India</span>
+        </div>
+      </div>
+      <span class="softwares-label">Softwares</span>
+      <div class="sw-tags">
+        <span class="sw-tag">Canva</span>
+        <span class="sw-tag">MS Word</span>
+        <span class="sw-tag">PowerPoint</span>
+        <span class="sw-tag">Excel</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ CONTENT NUMBER ROW ══ -->
+<div id="content-nav">
+  <div class="cn-wrap">
+    <span class="cn-num">01</span>
+    <span class="cn-num">02</span>
+    <span class="cn-num">03</span>
+    <div class="cn-word">CONTENT</div>
+    <span class="cn-num">04</span>
+    <span class="cn-num">05</span>
+  </div>
+</div>
+
+<!-- ══ PROJECTS / HIGHLIGHTS ══ -->
+<section id="projects">
+  <div class="proj-wrap">
+    <div class="proj-top">
+      <div class="proj-title">Creative <span>Work_</span></div>
+      <div class="proj-sub">// selected highlights</div>
+    </div>
+    <div class="proj-grid">
+
+      <div class="proj-tile">
+        <div class="pt-line"></div>
+        <div class="pt-num">01</div>
+        <div class="pt-color pt-c1">🎭</div>
+        <div class="pt-title">Nukkad Natak — Street Play</div>
+        <div class="pt-sub">Script Writing<br>Direction<br>Nov 2023 · 🥉 3rd Place</div>
+      </div>
+
+      <div class="proj-tile">
+        <div class="pt-line"></div>
+        <div class="pt-num">02</div>
+        <div class="pt-color pt-c2">🎪</div>
+        <div class="pt-title">Head Event Manager</div>
+        <div class="pt-sub">Full Event Coordination<br>Team Leadership<br>Aug 2024</div>
+      </div>
+
+      <div class="proj-tile">
+        <div class="pt-line"></div>
+        <div class="pt-num">03</div>
+        <div class="pt-color pt-c3">💃</div>
+        <div class="pt-title">Diwali Stage Coordinator</div>
+        <div class="pt-sub">Stage Management<br>Performer + Coordinator<br>Oct 2022</div>
+      </div>
+
+      <div class="proj-tile">
+        <div class="pt-line"></div>
+        <div class="pt-num">04</div>
+        <div class="pt-color pt-c4">📋</div>
+        <div class="pt-title">PM Certifications</div>
+        <div class="pt-sub">Foundations · Planning<br>Agile PM<br>Coursera Certified</div>
+      </div>
+
+      <div class="proj-tile">
+        <div class="pt-line"></div>
+        <div class="pt-num">05</div>
+        <div class="pt-color pt-c5">✍️</div>
+        <div class="pt-title">Content & Creative Work</div>
+        <div class="pt-sub">AI Writing · Scripts<br>Posters · Banners<br>Ongoing</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ VISIT SITE BAR ══ -->
+<div class="visit-bar">
+  <a href="https://linkedin.com/in/manya-jain-124184252" target="_blank" style="text-decoration:none;display:flex;align-items:center;gap:18px;">
+    <div class="vb-arrow">↗</div>
+    <span class="vb-label">Visit LinkedIn</span>
+  </a>
+  <a class="vb-back" href="index.html">← Back to All Profiles</a>
+</div>
+
+<!-- ══ SKILLS ══ -->
+<section id="skills">
+  <div class="sk-wrap">
+    <div class="sk-header">
+      <div class="sk-title">What I <span>Bring_</span></div>
+      <div class="proj-sub">// skills & tools</div>
+    </div>
+    <div class="sk-grid">
+
+      <div class="sk-card">
+        <span class="skc-icon">✍️</span>
+        <div class="skc-title">Content Writing</div>
+        <div class="skc-sub">// words that work</div>
+        <div class="skc-tags">
+          <span class="skc-tag">Script Writing</span>
+          <span class="skc-tag">AI Content Writing</span>
+          <span class="skc-tag">Technical Writing</span>
+          <span class="skc-tag">Creative Writing</span>
+          <span class="skc-tag">Storytelling</span>
+          <span class="skc-tag">Research</span>
+          <span class="skc-tag">Hosting / MC</span>
+          <span class="skc-tag">MS Word</span>
+        </div>
+      </div>
+
+      <div class="sk-card">
+        <span class="skc-icon">🎪</span>
+        <div class="skc-title">Event Management</div>
+        <div class="skc-sub">// moments made memorable</div>
+        <div class="skc-tags">
+          <span class="skc-tag">Coordination</span>
+          <span class="skc-tag">Leadership</span>
+          <span class="skc-tag">Crowd Handling</span>
+          <span class="skc-tag">Team Management</span>
+          <span class="skc-tag">Creative Direction</span>
+          <span class="skc-tag">Communication</span>
+          <span class="skc-tag">Canva</span>
+          <span class="skc-tag">Poster Design</span>
+        </div>
+      </div>
+
+      <div class="sk-card">
+        <span class="skc-icon">📋</span>
+        <div class="skc-title">Project Management</div>
+        <div class="skc-sub">// structure behind the creative</div>
+        <div class="skc-tags">
+          <span class="skc-tag">Agile</span>
+          <span class="skc-tag">Planning</span>
+          <span class="skc-tag">Execution</span>
+          <span class="skc-tag">Time Management</span>
+          <span class="skc-tag">Problem Solving</span>
+          <span class="skc-tag">Excel</span>
+          <span class="skc-tag">PowerPoint</span>
+        </div>
+        <div class="cert-list">
+          <div class="cl-item">PM: Foundations &amp; Initiation — Coursera</div>
+          <div class="cl-item">Project Planning &amp; Execution — Coursera</div>
+          <div class="cl-item">Agile Project Management — Coursera</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-brand">MANYA<em>.</em>FOLIO // Creative '26</div>
+  <div class="f-links">
+    <a href="https://linkedin.com/in/manya-jain-124184252" target="_blank">LinkedIn</a>
+    <a href="/cdn-cgi/l/email-protection#751f141c1b18141b0c1444404444351218141c195b161a18">Email</a>
+    <a href="index.html">← Profiles</a>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* particles */
+for(let i=0;i<16;i++){
+  const p=document.createElement('div');
+  p.className='particle';
+  p.style.cssText=`
+    left:${Math.random()*100}%;
+    --dx:${(Math.random()-0.5)*140}px;
+    width:2px;height:2px;
+    background:${Math.random()>0.5?'#f0c060':'#ff6b9d'};
+    animation-duration:${8+Math.random()*10}s;
+    animation-delay:${Math.random()*12}s;
+  `;
+  document.body.appendChild(p);
+}
+/* nav active */
+const secs=document.querySelectorAll('section[id]');
+const navAs=document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll',()=>{
+  let cur='';
+  secs.forEach(s=>{if(window.scrollY>=s.offsetTop-150)cur=s.id;});
+  navAs.forEach(a=>{a.style.color=a.getAttribute('href')==='#'+cur?'var(--gold)':'';});
+},{passive:true});
+</script>
+<style>
+/* ── CUSTOM CURSOR ── */
+* { cursor: none !important; }
+#cur-dot {
+  position:fixed;top:0;left:0;z-index:99999;pointer-events:none;
+  width:10px;height:10px;border-radius:50%;
+  background:#00fff7;box-shadow:0 0 8px #00fff7;
+  transform:translate(-50%,-50%);
+  transition:width 0.15s,height 0.15s,background 0.2s,box-shadow 0.2s;
+  mix-blend-mode:screen;
+}
+#cur-ring {
+  position:fixed;top:0;left:0;z-index:99998;pointer-events:none;
+  width:36px;height:36px;border-radius:50%;
+  border:1.5px solid #00fff7;
+  transform:translate(-50%,-50%);
+  transition:width 0.25s ease,height 0.25s ease,border-color 0.2s,opacity 0.2s;
+  opacity:0.6;
+}
+#cur-dot.hov { width:6px;height:6px;background:#ff00c8;box-shadow:0 0 14px #ff00c8; }
+#cur-ring.hov { width:58px;height:58px;border-color:#ff00c8;opacity:0.9; }
+.cur-trail {
+  position:fixed;z-index:99997;pointer-events:none;
+  border-radius:50%;transform:translate(-50%,-50%);mix-blend-mode:screen;
+}
+@media(max-width:900px){
+  #cur-dot,#cur-ring{display:none!important;}
+  *{cursor:auto!important;}
+}
+</style>
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
+<script>
+(function(){
+  var dot=document.getElementById('cur-dot');
+  var ring=document.getElementById('cur-ring');
+  if(!dot||!ring||('ontouchstart' in window)||window.innerWidth<=900) return;
+  var mx=0,my=0,rx=0,ry=0,TRAIL=14,trails=[];
+  for(var i=0;i<TRAIL;i++){
+    var t=document.createElement('div');
+    t.className='cur-trail';
+    var sz=Math.max(0.5,5-i*0.3);
+    t.style.cssText='width:'+sz+'px;height:'+sz+'px;opacity:'+(0.55-i*0.035)+';';
+    document.body.appendChild(t);
+    trails.push({el:t,x:0,y:0});
+  }
+  document.addEventListener('mousemove',function(e){
+    mx=e.clientX;my=e.clientY;
+    dot.style.left=mx+'px';dot.style.top=my+'px';
+  });
+  function lerp(a,b,t){return a+(b-a)*t;}
+  (function anim(){
+    rx=lerp(rx,mx,0.14);ry=lerp(ry,my,0.14);
+    ring.style.left=rx+'px';ring.style.top=ry+'px';
+    trails[0].x=lerp(trails[0].x,mx,0.45);
+    trails[0].y=lerp(trails[0].y,my,0.45);
+    trails[0].el.style.left=trails[0].x+'px';
+    trails[0].el.style.top=trails[0].y+'px';
+    trails[0].el.style.background='#00fff7';
+    trails[0].el.style.boxShadow='0 0 6px #00fff7';
+    for(var i=1;i<TRAIL;i++){
+      trails[i].x=lerp(trails[i].x,trails[i-1].x,0.42);
+      trails[i].y=lerp(trails[i].y,trails[i-1].y,0.42);
+      trails[i].el.style.left=trails[i].x+'px';
+      trails[i].el.style.top=trails[i].y+'px';
+      var r2=i/TRAIL;
+      var cr=Math.round(r2*255);
+      var cg=Math.round(255-r2*255);
+      var cb=Math.round(247-r2*47);
+      trails[i].el.style.background='rgb('+cr+','+cg+','+cb+')';
+      trails[i].el.style.boxShadow='0 0 4px rgb('+cr+','+cg+','+cb+')';
+    }
+    requestAnimationFrame(anim);
+  })();
+  var hSel='a,button,[onclick],input,textarea,.profile-card,.cert-card,.contact-card,.c-link,.proj-tile,.ach-card,.ach-tile,.sk-card,.exp-card,.btn-primary,.btn-secondary,.btn-gold,.btn-outline,.domain-tag,.pill,.hp,.sw-tag,.skill-cluster,.resume-download,.nav-cta,.nav-download,.vb-arrow,.resume-download,.section-title';
+  document.addEventListener('mouseover',function(e){
+    if(e.target.closest(hSel)){dot.classList.add('hov');ring.classList.add('hov');}
+  });
+  document.addEventListener('mouseout',function(e){
+    if(e.target.closest(hSel)){dot.classList.remove('hov');ring.classList.remove('hov');}
+  });
+  document.addEventListener('mousedown',function(){
+    ring.style.transform='translate(-50%,-50%) scale(0.7)';
+    dot.style.transform='translate(-50%,-50%) scale(0.5)';
+  });
+  document.addEventListener('mouseup',function(){
+    ring.style.transform='';dot.style.transform='';
+  });
+})();
+</script>
+
+// Fix bfcache — prevent black screen on browser back/swipe
+window.addEventListener('pageshow', function(e) {
+  document.body.style.opacity = '1';
+  document.body.style.visibility = 'visible';
+});
+// Force page reload on back navigation so overlay never sticks
+window.addEventListener('popstate', function() {
+  window.location.reload();
+});
+
+</body>
+</html>
